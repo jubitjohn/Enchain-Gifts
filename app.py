@@ -22,6 +22,7 @@ def generate_pendant():
     # Save temporary HTML file
     with open(html_file, 'w', encoding='utf-8') as f:
         f.write(rendered_html)
+        
     
     # Launch Playwright and render the page to screenshot
     with sync_playwright() as p:
