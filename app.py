@@ -5,8 +5,8 @@ import os
 
 app = Flask(__name__)
 
-# Use Railway's attached volume path
-IMAGES_DIR = '/images'
+# Use environment variable for images directory, default to ./images for local
+IMAGES_DIR = os.environ.get('IMAGES_DIR', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images'))
 os.makedirs(IMAGES_DIR, exist_ok=True)
 
 @app.route('/generate-pendant', methods=['POST'])
@@ -39,7 +39,10 @@ def generate_pendant():
     
     # Construct the public URL for Railway (served by Flask)
     public_url = f"/images/{os.path.basename(output_file)}"
-    return jsonify({"url": public_url})
+    return jsonify({
+        "url": public_url,
+        "file_path": output_file
+    })
 
 @app.route('/images/<path:filename>')
 def serve_image(filename):
