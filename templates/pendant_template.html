@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Name Pendant Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;family=Sacramento&amp;family=Noto+Naskh+Arabic&amp;family=Amiri&amp;family=Cairo&amp;display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #fffdfa;
+      font-family: 'Lora', serif;
+      color: #2d2d2d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .pendant-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fffdfa;
+      padding: 40px 32px 32px 32px;
+      border-radius: 24px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+      margin-bottom: 0;
+    }
+
+    .chain-img {
+      height: 160px;
+      object-fit: contain;
+    }
+
+    #pendant {
+      font-size: 56px;
+      font-family: 'Pacifico', cursive;
+      color: #ffcf3c;
+      text-shadow: 1px 1px 2px rgba(255, 215, 0, 0.5),
+        2px 2px 8px rgba(0, 0, 0, 0.4);
+      filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.5));
+      padding: 0 0px;
+      direction: ltr;
+      transition: font-family 0.3s ease;
+    }
+
+    .arabic-font {
+      direction: rtl;
+    }
+
+    @media (max-width: 600px) {
+      #pendant {
+        font-size: 42px;
+      }
+      .chain-img {
+        height: 120px;
+      }
+      .pendant-wrapper {
+        padding: 24px 8px 16px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="pendant-wrapper">
+    <img class="chain-img" src="https://cdn.shopify.com/s/files/1/0622/1945/2489/files/Untitled_design_11.png?v=1746956405" alt="left-chain">
+    <div id="pendant">{{ name }}</div>
+    <img class="chain-img" src="https://cdn.shopify.com/s/files/1/0622/1945/2489/files/Untitled_design_12.png?v=1746956409" alt="right-chain">
+  </div>
+</body>
+</html> 
