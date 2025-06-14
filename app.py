@@ -1,20 +1,20 @@
 from flask import Flask, request, render_template, jsonify, send_from_directory
 from playwright.sync_api import sync_playwright
-import os
 import uuid
+import os
 
 app = Flask(__name__)
 
-# Ensure the files directory exists
-FILES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'files')
-os.makedirs(FILES_DIR, exist_ok=True)
+# Use Railway's attached volume path
+IMAGES_DIR = '/images'
+os.makedirs(IMAGES_DIR, exist_ok=True)
 
 @app.route('/generate-pendant', methods=['POST'])
 def generate_pendant():
     name = request.json.get('name', 'Thaamu')
     unique_id = uuid.uuid4().hex
     html_file = f"render_{unique_id}.html"
-    output_file = os.path.join(FILES_DIR, f"pendant_{unique_id}.png")
+    output_file = os.path.join(IMAGES_DIR, f"pendant_{unique_id}.png")
     
     # Render the Jinja2 HTML with name
     rendered_html = render_template("pendant_template.html", name=name)
@@ -38,12 +38,13 @@ def generate_pendant():
     os.remove(html_file)  # Clean up
     
     # Construct the public URL for Railway (served by Flask)
-    public_url = f"/files/pendant_{unique_id}.png"
+    public_url = f"/images/{os.path.basename(output_file)}"
     return jsonify({"url": public_url})
 
-@app.route('/files/<path:filename>')
-def serve_file(filename):
-    return send_from_directory(FILES_DIR, filename)
+@app.route('/images/<path:filename>')
+def serve_image(filename):
+    return send_from_directory(IMAGES_DIR, filename)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8083) 
+    port = int(os.environ.get('PORT', 8083))
+    app.run(debug=True, host='0.0.0.0', port=port) 
